@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/07 00:47:57 by nfascia           #+#    #+#             */
-/*   Updated: 2022/04/08 17:16:20 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/04/25 16:51:09 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,6 @@ unsigned int	ft_putunsigned(unsigned int nb)
 	a = 1;
 	nb2 = nb;
 	j = 0;
-	if (nb2 < 0)
-		return (0);
 	if (nb2 == 0)
 		return (ft_putchar('0'));
 	while (nb2 / a > 0)
