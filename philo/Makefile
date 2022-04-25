@@ -13,7 +13,7 @@ OBJDIR		= all_o
 
 CC			= gcc
 
-CFLAGS		= -Werror -Wall -Wextra
+CFLAGS		= -Werror -Wall -Wextra -pthread
 
 RM			= rm -rf
 
