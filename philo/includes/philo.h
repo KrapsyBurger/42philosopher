@@ -10,7 +10,7 @@ typedef struct  s_data
 {
     int i;
     int num;
-    pthread_mutex_t *lock;
+    pthread_mutex_t mutex;
 }
 t_data;
 
