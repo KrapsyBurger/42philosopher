@@ -5,11 +5,12 @@
 #include <stdlib.h>
 #include "ft_printf.h"
 
-pthread_mutex_t lock;
 
 typedef struct  s_data
 {
     int i;
+    int num;
+    pthread_mutex_t *lock;
 }
 t_data;
 
