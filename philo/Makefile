@@ -3,7 +3,8 @@ NAME		= philo
 SRC			=	ft_printf/ft_display.c\
 				ft_printf/ft_display2.c\
 				ft_printf/ft_printf.c\
-				main.c
+				main.c\
+				utils.c
 
 SRCSPATH 	= srcs
 
