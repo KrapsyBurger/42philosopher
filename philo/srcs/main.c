@@ -6,11 +6,10 @@ void	*ft_test(void *s)
 
 	data = (t_data *)s;
 
-	pthread_mutex_lock(&data->mutex);
+	pthread_mutex_lock(&data->mutex[data->num]);
 	ft_printf("incrementing the variable\n");
 	data->i++;
-	pthread_mutex_unlock(&data->mutex);
-	data->i++;
+	pthread_mutex_unlock(&data->mutex[data->num]);
 	return (NULL);
 }
 
@@ -22,8 +21,9 @@ int	ft_thread_create(t_data **data)
 	i = 0;
 	while (i < (*data)->philonbr)
 	{
-		pthread_create((*data)->tabid[i], NULL, ft_test, (*data));
+		pthread_create(&(*data)->tabid[i], NULL, ft_test, (*data));
 		i++;
+		//(*data)->num++;
 	}
 	while (i > 0)
 	{
@@ -57,8 +57,8 @@ int main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	data = malloc(sizeof(t_data));
-	// if (ft_init(&data, argc, argv) == 0)
-	// 	return (free(data), 0);
+	if (ft_init(&data, argc, argv) == 0)
+		return (free(data), 0);
 
 	// ft_printf("number of philos : %d\n", data->philonbr);
 	// ft_printf("time to die : %d\n", data->timetodie);
@@ -72,22 +72,22 @@ int main(int argc, char **argv)
 	data->num = 0;
 
 	data->tabid = malloc(sizeof(pthread_t) * data->philonbr);
+	data->mutex = malloc(sizeof(pthread_mutex_t) * data->philonbr);
 
-	pthread_mutex_init(&data->mutex, NULL);
-
-
+	int i = 0;
+	while (i < data->philonbr)
+	{
+		pthread_mutex_init(&data->mutex[i], NULL);
+		i++;
+	}
 	ft_thread_create(&data);
-
-	// pthread_create(&data->tabid[0], NULL, ft_test, data);
-	// pthread_create(&data->tabid[1], NULL, ft_test, data);
-	// pthread_create(&data->tabid[2], NULL, ft_test, data);
-
-	// pthread_join(data->tabid[0], NULL);
-	// pthread_join(data->tabid[1], NULL);
-	// pthread_join(data->tabid[2], NULL);
 
 	ft_printf("%d\n", data->i);
 	
-	pthread_mutex_destroy(&data->mutex);
+	while (i > 0)
+	{
+		pthread_mutex_destroy(&data->mutex[i]);
+		i--;
+	}
 	return (0);
 }

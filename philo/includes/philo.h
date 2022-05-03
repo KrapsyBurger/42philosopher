@@ -16,7 +16,7 @@ typedef struct  s_data
     int i;
     int num;
     pthread_t       *tabid;
-    pthread_mutex_t mutex;
+    pthread_mutex_t *mutex;
 }
 t_data;
 
