@@ -3,13 +3,16 @@
 void	*ft_test(void *s)
 {
 	t_data *data;
-
 	data = (t_data *)s;
 
-	pthread_mutex_lock(&data->mutex[data->num]);
+	int i = 0;
+	int b;
+	pthread_mutex_lock(&data->mutex[i]);
 	ft_printf("incrementing the variable\n");
 	data->i++;
-	pthread_mutex_unlock(&data->mutex[data->num]);
+	b = i;
+	i++;
+	pthread_mutex_unlock(&data->mutex[b]);
 	return (NULL);
 }
 
@@ -23,9 +26,9 @@ int	ft_thread_create(t_data **data)
 	{
 		pthread_create(&(*data)->tabid[i], NULL, ft_test, (*data));
 		i++;
-		//(*data)->num++;
 	}
-	while (i > 0)
+	i--;
+	while (i >= 0)
 	{
 		pthread_join((*data)->tabid[i], NULL);
 		i--;
@@ -70,9 +73,13 @@ int main(int argc, char **argv)
 	
 	data->i = 10;
 	data->num = 0;
+	data->index = 0;
 
 	data->tabid = malloc(sizeof(pthread_t) * data->philonbr);
 	data->mutex = malloc(sizeof(pthread_mutex_t) * data->philonbr);
+
+	//ft_printf("%d\n", data->philonbr);
+
 
 	int i = 0;
 	while (i < data->philonbr)

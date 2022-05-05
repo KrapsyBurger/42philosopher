@@ -15,8 +15,10 @@ typedef struct  s_data
     int philomusteat;
     int i;
     int num;
+    int index;
     pthread_t       *tabid;
     pthread_mutex_t *mutex;
+    void *a;
 }
 t_data;
 
