@@ -18,9 +18,19 @@ typedef struct  s_data
     int index;
     pthread_t       *tabid;
     pthread_mutex_t *mutex;
-    void *a;
+    pthread_t a;
 }
 t_data;
+
+typedef struct  s_dataa
+{
+    int i;
+    int b;
+    pthread_t id;
+    pthread_mutex_t *mutex;
+    int nb;
+}
+t_dataa;
 
 long	ft_atoi(const char *nptr);
 

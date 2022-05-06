@@ -2,35 +2,42 @@
 
 void	*ft_test(void *s)
 {
-	t_data *data;
-	data = (t_data *)s;
-
-	int i = 0;
-	int b;
-	pthread_mutex_lock(&data->mutex[i]);
-	ft_printf("incrementing the variable\n");
-	data->i++;
-	b = i;
-	i++;
-	pthread_mutex_unlock(&data->mutex[b]);
+	t_dataa *dataa;
+	dataa = (t_dataa *)s;
+	int i;
+	i = 0;
+	int l;
+	//ft_printf("ceci est le thread no : %d\n", dataa[i].i);
+	pthread_mutex_lock(&dataa->mutex[i]);
+	//ft_printf("incrementing the variable\n");
+	ft_printf("ceci est le thread no : %d\n", dataa[dataa->b].i);
+	dataa->nb++;
+	l = i;
+	dataa->b++;
+	pthread_mutex_unlock(&dataa->mutex[l]);
 	return (NULL);
 }
 
-
-int	ft_thread_create(t_data **data)
+int	ft_thread_create(t_dataa **dataa, t_data **data)
 {
 	int	i;
+	int a;
 
 	i = 0;
+	a = 0;
 	while (i < (*data)->philonbr)
 	{
-		pthread_create(&(*data)->tabid[i], NULL, ft_test, (*data));
-		i++;
+		pthread_create(&(*dataa)[i].id, NULL, ft_test, (*dataa));
+		(*dataa)[i].i = a;
+		//ft_printf("ceci est a : %d\n", (*dataa)[i].i);
+		i++; 
+		a++;
+		//ft_printf("ceci est a : %d\n", (*dataa)[i].i);
 	}
 	i--;
 	while (i >= 0)
 	{
-		pthread_join((*data)->tabid[i], NULL);
+		pthread_join((*dataa)[i].id, NULL);
 		i--;
 	}
 	return (0);
@@ -56,12 +63,16 @@ int	ft_init(t_data **data, int argc, char **argv)
 int main(int argc, char **argv)
 {
 	t_data *data;
-	
+	t_dataa *dataa;
+
 	(void)argc;
 	(void)argv;
 	data = malloc(sizeof(t_data));
 	if (ft_init(&data, argc, argv) == 0)
 		return (free(data), 0);
+
+	//ft_printf("data->philonbr = %d\n", data->philonbr);
+	dataa = malloc(sizeof(t_dataa) * data->philonbr);
 
 	// ft_printf("number of philos : %d\n", data->philonbr);
 	// ft_printf("time to die : %d\n", data->timetodie);
@@ -75,8 +86,10 @@ int main(int argc, char **argv)
 	data->num = 0;
 	data->index = 0;
 
-	data->tabid = malloc(sizeof(pthread_t) * data->philonbr);
-	data->mutex = malloc(sizeof(pthread_mutex_t) * data->philonbr);
+	dataa->nb = 10;
+	dataa->b = 0;
+	//data->tabid = malloc(sizeof(pthread_t) * data->philonbr);
+	dataa->mutex = malloc(sizeof(pthread_mutex_t) * data->philonbr);
 
 	//ft_printf("%d\n", data->philonbr);
 
@@ -84,16 +97,16 @@ int main(int argc, char **argv)
 	int i = 0;
 	while (i < data->philonbr)
 	{
-		pthread_mutex_init(&data->mutex[i], NULL);
+		pthread_mutex_init(&dataa->mutex[i], NULL);
 		i++;
 	}
-	ft_thread_create(&data);
+	ft_thread_create(&dataa, &data);
 
-	ft_printf("%d\n", data->i);
+	ft_printf("%d\n", dataa->nb);
 	
 	while (i > 0)
 	{
-		pthread_mutex_destroy(&data->mutex[i]);
+		pthread_mutex_destroy(&dataa->mutex[i]);
 		i--;
 	}
 	return (0);
