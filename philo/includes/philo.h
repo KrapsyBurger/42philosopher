@@ -17,7 +17,7 @@ typedef struct  s_data
     pthread_mutex_t *mutex;
     pthread_t a;
 }
-t_philoinfo;
+t_philo;
 
 typedef struct  s_dataa
 {
@@ -27,7 +27,7 @@ typedef struct  s_dataa
     pthread_mutex_t *mutex;
     int nb;
 }
-t_data;
+t_thread;
 
 long	ft_atoi(const char *nptr);
 
