@@ -13,14 +13,11 @@ typedef struct  s_data
     int timetosleep;
     int philonbr;
     int philomusteat;
-    int i;
-    int num;
-    int index;
     pthread_t       *tabid;
     pthread_mutex_t *mutex;
     pthread_t a;
 }
-t_data;
+t_philoinfo;
 
 typedef struct  s_dataa
 {
@@ -30,7 +27,7 @@ typedef struct  s_dataa
     pthread_mutex_t *mutex;
     int nb;
 }
-t_dataa;
+t_data;
 
 long	ft_atoi(const char *nptr);
 
