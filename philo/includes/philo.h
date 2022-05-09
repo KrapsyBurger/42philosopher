@@ -29,6 +29,16 @@ typedef struct  s_dataa
 }
 t_thread;
 
+// utils
 long	ft_atoi(const char *nptr);
+
+// init and destroy
+int     init_struct(t_philo **philo, t_thread **thread, int argc, char **argv);
+int     init_mutex(t_thread **thread, t_philo **philo);
+int     destroy_mutex(t_thread **thread, t_philo **philo);
+int     ft_thread_create(t_thread **thread, t_philo **philo);
+
+// routine
+void    *routine(void *s);
 
 #endif

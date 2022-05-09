@@ -4,7 +4,8 @@ SRC			=	ft_printf/ft_display.c\
 				ft_printf/ft_display2.c\
 				ft_printf/ft_printf.c\
 				main.c\
-				utils.c
+				utils.c\
+				init_and_destroy.c
 
 SRCSPATH 	= srcs
 
