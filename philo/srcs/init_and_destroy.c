@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/10 17:55:19 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/10 18:28:36 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,9 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 	(*thread) = malloc(sizeof(t_thread) * (*philo)->philonbr);
 	if ((*thread) == NULL)
 		return (0);
+	(*thread)->thread_idx = 0;
+	(*thread)->mutex_idx = 0;
+	(*thread)->philo = (*philo);
 	(*thread)->mutex = malloc(sizeof(pthread_mutex_t) * (*philo)->philonbr);
 	(*thread)->mutex_print = malloc(sizeof(pthread_mutex_t));
 	if ((*thread)->mutex == NULL || (*thread)->mutex_print == NULL)

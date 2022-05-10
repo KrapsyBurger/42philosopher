@@ -21,7 +21,8 @@ t_philo;
 typedef struct  s_dataa
 {
     int i;
-    int tabidx;
+    int mutex_idx;
+    int thread_idx;
     long long last_meal;
     pthread_t id;
     pthread_mutex_t *mutex;
