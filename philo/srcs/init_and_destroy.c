@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/10 18:28:36 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/10 19:08:54 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_thread_create(t_thread **thread, t_philo **philo)
 	while (i < (*philo)->philonbr)
 	{
 		pthread_create(&(*thread)[i].id, NULL, routine, (*thread));
-		(*thread)[i].i = a;
+		(*thread)[a].i = a;
 		i++; 
 		a++;
 	}
