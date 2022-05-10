@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init_and_destroy.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
+/*   Updated: 2022/05/10 17:55:19 by nfascia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philo.h>
 
 int	destroy_mutex(t_thread **thread, t_philo **philo)
@@ -11,6 +23,8 @@ int	destroy_mutex(t_thread **thread, t_philo **philo)
 			return (0);
 		i--;
 	}
+	if (pthread_mutex_destroy((*thread)->mutex_print) != 0)
+		return (0);
 	return (1);
 }
 
@@ -25,6 +39,8 @@ int	init_mutex(t_thread **thread, t_philo **philo)
 			return (0);
 		i++;
 	}
+	if (pthread_mutex_init((*thread)->mutex_print, NULL) != 0)
+		return (0);
 	return (1);
 }
 
@@ -45,7 +61,8 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 	if ((*thread) == NULL)
 		return (0);
 	(*thread)->mutex = malloc(sizeof(pthread_mutex_t) * (*philo)->philonbr);
-	if ((*thread)->mutex == NULL)
+	(*thread)->mutex_print = malloc(sizeof(pthread_mutex_t));
+	if ((*thread)->mutex == NULL || (*thread)->mutex_print == NULL)
 		return (0);
 	if (init_mutex(thread, philo) == 0)
 		return (0);
@@ -59,6 +76,7 @@ int	ft_thread_create(t_thread **thread, t_philo **philo)
 
 	i = 0;
 	a = 0;
+	(*philo)->start_time = current_time();
 	while (i < (*philo)->philonbr)
 	{
 		pthread_create(&(*thread)[i].id, NULL, routine, (*thread));

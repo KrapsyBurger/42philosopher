@@ -1,5 +1,17 @@
 #include <philo.h>
 
+unsigned int	ft_strlen(char *s)
+{
+	unsigned int	i;
+
+	i = 0;
+	while(s[i])
+	{
+		i++;
+	}
+	return (i);
+}
+
 long	ft_atoi(const char *nptr)
 {
 	int		i;
@@ -27,4 +39,35 @@ long	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (result *= neg);
+}
+
+long long	current_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
+char	*ft_action(int action)
+{
+	if (action == 1)
+		return ("has taken a fork\n");
+	else if (action == 2)
+		return ("is eating\n");
+	else if (action == 3)
+		return ("is sleeping\n");
+	else if (action == 4)
+		return ("is thinking\n");
+	else if (action == 5)
+		return ("died\n");
+	return (NULL);
+}
+
+int	philo_print(t_thread **thread, t_philo **philo, int i, int action)
+{
+	pthread_mutex_lock((*thread)->mutex_print);
+	printf("%lld %d %s", current_time() - (*philo)->start_time, i + 1, ft_action(action));
+	pthread_mutex_unlock((*thread)->mutex_print);
+	return (0);
 }
