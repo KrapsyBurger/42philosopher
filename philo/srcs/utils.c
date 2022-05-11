@@ -64,10 +64,10 @@ char	*ft_action(int action)
 	return (NULL);
 }
 
-int	philo_print(t_thread **thread, t_philo **philo, int i, int action)
+int	philo_print(t_philo **philo, int i, int action)
 {
-	pthread_mutex_lock((*thread)->mutex_print);
+	pthread_mutex_lock((*philo)->mutex_print);
 	printf("%lld %d %s", current_time() - (*philo)->start_time, i + 1, ft_action(action));
-	pthread_mutex_unlock((*thread)->mutex_print);
+	pthread_mutex_unlock((*philo)->mutex_print);
 	return (0);
 }
