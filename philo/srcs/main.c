@@ -6,14 +6,14 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:56:25 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 19:28:19 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/14 19:58:19 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
 int	philo_eat(t_thread *thread)
-{
+{ 
 	if (thread->philo_idx == 0)
 	{
 		if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo_idx]) == 0)
@@ -28,9 +28,9 @@ int	philo_eat(t_thread *thread)
 		if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo_idx]) == 0)
 			philo_print(&thread->philo, thread->philo_idx, 1);
 	}
-	
+	// printf("\n\n%lld --------- %d\n\n", current_time() - thread->philo->start_time - thread->last_meal, thread->philo->timetodie); 
+
 	philo_print(&thread->philo, thread->philo_idx, 2);
-	
 	thread->last_meal = current_time() - thread->philo->start_time;
 	thread->eat_count++;
 
@@ -52,6 +52,12 @@ void	philo_sleep(t_thread *thread)
 {
 	philo_print(&thread->philo, thread->philo_idx, 3);
 	usleep(thread->philo->timetosleep * 1000);
+	if (current_time() - thread->philo->start_time - thread->last_meal >= thread->philo->timetodie)
+	{
+		philo_print(&thread->philo, thread->philo_idx, 5);
+		thread->is_alive = 0;
+		exit (1) ;
+	}
 }
 
 void	*routine(void *s)

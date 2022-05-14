@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 19:28:06 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/14 19:36:05 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	destroy_mutex(t_philo **philo)
 {
-	int i;
-	
+	int	i;
+
 	i = (*philo)->philonbr;
 	while (i > 0)
 	{
@@ -30,7 +30,7 @@ int	destroy_mutex(t_philo **philo)
 
 int	init_mutex(t_philo **philo)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < (*philo)->philonbr)
@@ -74,7 +74,7 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 int	ft_thread_create(t_thread **thread, t_philo **philo)
 {
 	int	i;
-	int a;
+	int	a;
 
 	i = 0;
 	a = 0;

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/05/14 19:32:50 by nfascia           #+#    #+#             */
+/*   Updated: 2022/05/14 19:33:16 by nfascia          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <philo.h>
 
 unsigned int	ft_strlen(char *s)
@@ -5,7 +17,7 @@ unsigned int	ft_strlen(char *s)
 	unsigned int	i;
 
 	i = 0;
-	while(s[i])
+	while (s[i])
 	{
 		i++;
 	}
@@ -67,7 +79,8 @@ char	*ft_action(int action)
 int	philo_print(t_philo **philo, int i, int action)
 {
 	pthread_mutex_lock((*philo)->mutex_print);
-	printf("%lld %d %s", current_time() - (*philo)->start_time, i + 1, ft_action(action));
+	printf("%lld %d %s", current_time() - (*philo)->start_time,
+		i + 1, ft_action(action));
 	pthread_mutex_unlock((*philo)->mutex_print);
 	return (0);
 }
