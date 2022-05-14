@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/11 18:16:35 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/14 16:53:39 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 		return (0);
 	if (argc > 6 || argc < 5)
 		return (0);
+	(*philo)->argc = argc;
 	(*philo)->start_time = current_time();
 	(*philo)->philonbr = ft_atoi(argv[1]);
 	(*philo)->timetodie = ft_atoi(argv[2]);
@@ -80,7 +81,12 @@ int	ft_thread_create(t_thread **thread, t_philo **philo)
 	while (i < (*philo)->philonbr)
 	{
 		(*thread)[i].philo_idx = a;
+		(*thread)[i].is_eating = 0;
+		(*thread)[i].is_sleeping = 0;
+		(*thread)[i].is_thinking = 0;
 		(*thread)[i].is_alive = 1;
+		if ((*philo)->argc == 6)
+			(*thread)[i].eat_count = 0;
 		(*thread)[i].philo = (*philo);
 		pthread_create(&(*thread)[i].id, NULL, routine, &(*thread)[i]);
 		i++;
