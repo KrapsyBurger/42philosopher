@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:56:25 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 17:18:17 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/14 19:28:19 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,10 @@ int	philo_eat(t_thread *thread)
 	
 	philo_print(&thread->philo, thread->philo_idx, 2);
 	
-	usleep(thread->philo->timetoeat * 1000);
-	
-	thread->is_eating = 1;
-	thread->is_sleeping = 0;
-	thread->is_thinking = 1;
-	thread->eat_count++;
 	thread->last_meal = current_time() - thread->philo->start_time;
+	thread->eat_count++;
+
+	usleep(thread->philo->timetoeat * 1000);
 
 
 	pthread_mutex_unlock(&thread->philo->mutex_fork[thread->philo_idx - 1]);
@@ -51,21 +48,10 @@ int	philo_eat(t_thread *thread)
 	return (0);
 }
 
-
-int	ft_filling_pair(t_thread **thread)
+void	philo_sleep(t_thread *thread)
 {
-	int	i;
-
-	i = 0;
-	while (thread[i])
-	{
-		if ((*thread)[i].philo_idx % 2 != 0)
-		{
-			(*thread)[i].is_eating = 1;
-		}
-		i++;
-	}
-	return (0);
+	philo_print(&thread->philo, thread->philo_idx, 3);
+	usleep(thread->philo->timetosleep * 1000);
 }
 
 void	*routine(void *s)
@@ -74,44 +60,34 @@ void	*routine(void *s)
 	thread = (t_thread *)s;
 
 	if (thread->philo->philonbr % 2 == 0)
-		ft_filling_pair(&thread);
-	
-
+	{
+		if (thread->philo_idx % 2 != 0)
+			usleep(thread->philo->timetoeat * 1000);
+	}
+	else if (thread->philo->philonbr % 2 != 0)
+	{
+		if (thread->philo_idx % 2 == 0)
+			usleep(thread->philo->timetoeat * 1000);
+	}
 	while (thread->is_alive == 1)
 	{
-		if (thread->is_eating == 0)
+		if (current_time() - thread->philo->start_time - thread->last_meal >= thread->philo->timetodie)
 		{
-			philo_eat(thread);
+			philo_print(&thread->philo, thread->philo_idx, 5);
+			thread->is_alive = 0;
+			break ;
 		}
-		else if (thread->is_thinking == 0)
-		{
-			philo_print(&thread->philo, thread->philo_idx, 4);
-			thread->is_thinking = 1;
-			thread->is_eating = 0;
-			thread->is_sleeping = 1;
-		}
-		else if (thread->is_sleeping == 0)
-		{
-			thread->is_thinking = 0;
-			thread->is_eating = 1;
-			thread->is_sleeping = 1;
-			philo_print(&thread->philo, thread->philo_idx, 3);
-			usleep(thread->philo->timetosleep * 1000);
-		}
+		philo_eat(thread);
+		philo_print(&thread->philo, thread->philo_idx, 4);
+		philo_sleep(thread);
 		if (thread->philo->argc == 6)
 		{
 			if (thread->eat_count >= thread->philo->philomusteat)
 			{
 				philo_print(&thread->philo, thread->philo_idx, 5);
 				thread->is_alive = 0;
-				break ; 
+				break ;
 			}
-		}
-		if (thread->last_meal >= thread->philo->timetodie * 1000)
-		{
-			philo_print(&thread->philo, thread->philo_idx, 5);
-			thread->is_alive = 0;
-			break ;
 		}
 	}
 	return (NULL);

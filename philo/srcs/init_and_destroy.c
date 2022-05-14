@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 16:53:39 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/14 19:28:06 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,8 @@ int	ft_thread_create(t_thread **thread, t_philo **philo)
 	while (i < (*philo)->philonbr)
 	{
 		(*thread)[i].philo_idx = a;
-		(*thread)[i].is_eating = 0;
-		(*thread)[i].is_sleeping = 0;
-		(*thread)[i].is_thinking = 0;
 		(*thread)[i].is_alive = 1;
+		(*thread)[i].last_meal = 0;
 		if ((*philo)->argc == 6)
 			(*thread)[i].eat_count = 0;
 		(*thread)[i].philo = (*philo);

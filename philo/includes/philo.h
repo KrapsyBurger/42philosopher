@@ -26,9 +26,6 @@ typedef struct  s_dataa
     int philo_idx;
     int is_alive;
     int eat_count;
-    int is_thinking;
-    int is_eating;
-    int is_sleeping;
     long long last_meal;
     pthread_t id;
     t_philo *philo;
