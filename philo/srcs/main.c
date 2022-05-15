@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:56:25 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 19:58:19 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 00:53:59 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ void	*routine(void *s)
 			break ;
 		}
 		philo_eat(thread);
-		philo_print(&thread->philo, thread->philo_idx, 4);
 		philo_sleep(thread);
+		philo_print(&thread->philo, thread->philo_idx, 4);
 		if (thread->philo->argc == 6)
 		{
 			if (thread->eat_count >= thread->philo->philomusteat)
