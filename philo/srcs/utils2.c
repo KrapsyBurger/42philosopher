@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:31:26 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 19:34:33 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 20:15:35 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	is_someone_dead(t_thread *thread)
 {
-	if (current_time() - thread->philo->start_time - thread->last_meal >= thread->philo->timetodie)
+	if (current_time() - thread->philo->start_time
+		- thread->last_meal >= thread->philo->timetodie)
 	{	
 		philo_print(thread, thread->philo_idx, 5);
 		pthread_mutex_lock(thread->philo->mutex_death);
@@ -46,4 +47,31 @@ void	ft_free(t_thread **thread, t_philo **philo)
 	free((*philo)->mutex_print);
 	free((*philo)->mutex_rip);
 	free((*philo));
+}
+
+int	philo_death_check(t_thread **thread, t_philo **philo)
+{
+	int	a;
+
+	a = 0;
+	if ((*philo)->argc == 5)
+	{
+		while ((*philo)->is_someone_dead == 0)
+		{
+			a = 0;
+			while (a < (*philo)->philonbr)
+			{
+				pthread_mutex_lock((*philo)->mutex_rip);
+				if (is_someone_dead(thread[a]) == 1)
+				{
+					pthread_mutex_unlock((*philo)->mutex_rip);
+					philo_print(thread[a], thread[a]->philo_idx, 5);
+					return (1);
+				}
+				pthread_mutex_unlock((*philo)->mutex_rip);
+			}
+		}
+		is_someone_dead((*thread));
+	}
+	return (0);
 }

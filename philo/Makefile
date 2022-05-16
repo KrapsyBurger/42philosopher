@@ -3,7 +3,8 @@ NAME		= philo
 SRC			=	main.c\
 				utils.c\
 				utils2.c\
-				init_and_destroy.c
+				init_and_destroy.c\
+				philo_action.c
 
 SRCSPATH 	= srcs
 

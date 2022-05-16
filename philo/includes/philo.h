@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 19:34:09 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 19:32:27 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 20:17:04 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef struct s_data
 	pthread_mutex_t	*mutex_print;
 	pthread_mutex_t	*mutex_death;
 	pthread_mutex_t	*mutex_rip;
-	struct	s_dataa **thread;
 }	t_philo;
 
 typedef struct s_dataa
@@ -52,6 +51,7 @@ long long	current_time(void);
 int			is_someone_dead(t_thread *thread);
 void		ft_free(t_thread **thread, t_philo **philo);
 int			ft_usleep(t_thread *thread, long long time_in_ms);
+int			philo_death_check(t_thread **thread, t_philo **philo);
 
 // init and destroy
 int			init_struct(t_philo **philo, t_thread **thread,
@@ -62,7 +62,8 @@ int			ft_thread_create(t_thread **thread, t_philo **philo);
 
 // routine and action
 void		*routine(void *s);
-char		*ft_action(int action);
 int			philo_print(t_thread *thread, int i, int action);
+int			philo_eat(t_thread *thread);
+void		philo_sleep(t_thread *thread);
 
 #endif

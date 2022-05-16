@@ -6,74 +6,37 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:56:25 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 19:31:48 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 20:10:19 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
-int	philo_eat(t_thread *thread)
+int	routine_loop(t_thread *thread)
 {
-	if (thread->philo_idx == 0)
+	is_someone_dead(thread);
+	philo_eat(thread);
+	is_someone_dead(thread);
+	if (thread->philo->argc == 6)
 	{
-		if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo->philonbr - 1]) == 0)
+		if (thread->eat_count >= thread->philo->philomusteat)
 		{
-			philo_print(thread, thread->philo_idx, 1);
-			is_someone_dead(thread);
-		}
-		if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo_idx]) == 0)
-		{
-			philo_print(thread, thread->philo_idx, 1);
-			is_someone_dead(thread);
+			thread->is_alive = 0;
+			return (1);
 		}
 	}
-	else 
-	{
-		if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo_idx - 1]) == 0)
-		{
-			philo_print(thread, thread->philo_idx, 1);
-			is_someone_dead(thread);
-		}
-		if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo_idx]) == 0)
-		{
-			philo_print(thread, thread->philo_idx, 1);
-			is_someone_dead(thread);
-		}	
-	}
-
-	philo_print(thread, thread->philo_idx, 2);
-	pthread_mutex_lock(thread->philo->mutex_rip);
-	thread->last_meal = current_time() - thread->philo->start_time;
-	pthread_mutex_unlock(thread->philo->mutex_rip);
-	thread->eat_count++;
-
-	ft_usleep(thread, thread->philo->timetoeat);
-
-
-	if (thread->philo_idx == 0)
-	{
-		pthread_mutex_unlock(&thread->philo->mutex_fork[thread->philo->philonbr - 1]);
-		pthread_mutex_unlock(&thread->philo->mutex_fork[thread->philo_idx]);
-	}
-	else
-	{
-		pthread_mutex_unlock(&thread->philo->mutex_fork[thread->philo_idx - 1]);
-		pthread_mutex_unlock(&thread->philo->mutex_fork[thread->philo_idx]);
-	}
+	philo_sleep(thread);
+	is_someone_dead(thread);
+	philo_print(thread, thread->philo_idx, 4);
+	is_someone_dead(thread);
 	return (0);
-}
-
-void	philo_sleep(t_thread *thread)
-{
-	philo_print(thread, thread->philo_idx, 3);
-	ft_usleep(thread, thread->philo->timetosleep);
 }
 
 void	*routine(void *s)
 {
-	t_thread *thread;
-	thread = (t_thread *)s;
+	t_thread	*thread;
 
+	thread = (t_thread *)s;
 	if (thread->philo->philonbr % 2 == 0)
 	{
 		if (thread->philo_idx % 2 != 0)
@@ -86,30 +49,17 @@ void	*routine(void *s)
 	}
 	while (thread->is_alive == 1 && is_someone_dead(thread) == 0)
 	{
-		is_someone_dead(thread);
-		philo_eat(thread);
-		is_someone_dead(thread);
-		if (thread->philo->argc == 6)
-		{
-			if (thread->eat_count >= thread->philo->philomusteat)
-			{
-				thread->is_alive = 0;
-				break ;
-			}
-		}
-		philo_sleep(thread);
-		is_someone_dead(thread);
-		philo_print(thread, thread->philo_idx, 4);
-		is_someone_dead(thread);
+		if (routine_loop(thread) == 1)
+			break ;
 	}
 	return (NULL);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	t_philo *philo;
-	t_thread *thread;
-	int		i;
+	t_philo		*philo;
+	t_thread	*thread;
+	int			i;
 
 	i = 0;
 	if (init_struct(&philo, &thread, argc, argv) == 0)
