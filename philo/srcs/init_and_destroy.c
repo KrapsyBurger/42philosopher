@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 18:12:46 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 19:17:32 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,18 @@ int	destroy_mutex(t_philo **philo)
 {
 	int	i;
 
-	i = (*philo)->philonbr;
-	while (i > 0)
+	i = 0;
+	while (i < (*philo)->philonbr)
 	{
 		if (pthread_mutex_destroy(&(*philo)->mutex_fork[i]) != 0)
 			return (0);
-		i--;
+		i++;
 	}
 	if (pthread_mutex_destroy((*philo)->mutex_print) != 0)
+		return (0);
+	if (pthread_mutex_destroy((*philo)->mutex_death) != 0)
+		return (0);
+	if (pthread_mutex_destroy((*philo)->mutex_rip) != 0)
 		return (0);
 	return (1);
 }
@@ -40,6 +44,10 @@ int	init_mutex(t_philo **philo)
 		i++;
 	}
 	if (pthread_mutex_init((*philo)->mutex_print, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init((*philo)->mutex_death, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init((*philo)->mutex_rip, NULL) != 0)
 		return (0);
 	return (1);
 }
@@ -65,8 +73,10 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 		return (0);
 	(*philo)->mutex_fork = malloc(sizeof(pthread_mutex_t) * (*philo)->philonbr);
 	(*philo)->mutex_print = malloc(sizeof(pthread_mutex_t));
+	(*philo)->mutex_death = malloc(sizeof(pthread_mutex_t));
+	(*philo)->mutex_rip = malloc(sizeof(pthread_mutex_t));
 	(*philo)->thread = thread;
-	if ((*philo)->mutex_fork == NULL || (*philo)->mutex_print == NULL)
+	if (!(*philo)->mutex_fork || !(*philo)->mutex_print || !(*philo)->mutex_rip || !(*philo)->mutex_death)
 		return (0);
 	if (init_mutex(philo) == 0)
 		return (0);
@@ -95,13 +105,22 @@ int	ft_thread_create(t_thread **thread, t_philo **philo)
 	a = 0;
 	if ((*philo)->argc == 5)
 	{
+		while ((*philo)->is_someone_dead == 0)
+		{
+			a = 0;
+			while (a < (*philo)->philonbr)
+			{
+				pthread_mutex_lock((*philo)->mutex_rip);
+				if (is_someone_dead(thread[a]) == 1)
+				{
+					pthread_mutex_unlock((*philo)->mutex_rip);
+					philo_print(thread[a], thread[a]->philo_idx, 5);
+					return (0);
+				}
+				pthread_mutex_unlock((*philo)->mutex_rip);
+			}
+		}
 		is_someone_dead((*thread));
-	}
-	i--;
-	while (i >= 0)
-	{
-		pthread_join((*thread)[i].id, NULL);
-		i--;
 	}
 	return (0);
 }

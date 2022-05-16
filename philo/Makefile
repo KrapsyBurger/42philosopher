@@ -2,6 +2,7 @@ NAME		= philo
 
 SRC			=	main.c\
 				utils.c\
+				utils2.c\
 				init_and_destroy.c
 
 SRCSPATH 	= srcs
@@ -12,7 +13,7 @@ OBJDIR		= all_o
 
 CC			= gcc
 
-CFLAGS		= -Werror -Wall -Wextra -pthread
+CFLAGS		= -Werror -Wall -Wextra -pthread -g3
 
 RM			= rm -rf
 
