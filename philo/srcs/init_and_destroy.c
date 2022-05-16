@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 19:36:05 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:12:46 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 		return (0);
 	if (argc > 6 || argc < 5)
 		return (0);
+	(*philo)->is_someone_dead = 0;
 	(*philo)->argc = argc;
 	(*philo)->start_time = current_time();
 	(*philo)->philonbr = ft_atoi(argv[1]);
@@ -64,6 +65,7 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 		return (0);
 	(*philo)->mutex_fork = malloc(sizeof(pthread_mutex_t) * (*philo)->philonbr);
 	(*philo)->mutex_print = malloc(sizeof(pthread_mutex_t));
+	(*philo)->thread = thread;
 	if ((*philo)->mutex_fork == NULL || (*philo)->mutex_print == NULL)
 		return (0);
 	if (init_mutex(philo) == 0)
@@ -89,6 +91,11 @@ int	ft_thread_create(t_thread **thread, t_philo **philo)
 		pthread_create(&(*thread)[i].id, NULL, routine, &(*thread)[i]);
 		i++;
 		a++;
+	}
+	a = 0;
+	if ((*philo)->argc == 5)
+	{
+		is_someone_dead((*thread));
 	}
 	i--;
 	while (i >= 0)

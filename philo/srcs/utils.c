@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 19:32:50 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 19:33:16 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:18:08 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,14 @@ char	*ft_action(int action)
 	return (NULL);
 }
 
-int	philo_print(t_philo **philo, int i, int action)
+int	philo_print(t_thread *thread, int i, int action)
 {
-	pthread_mutex_lock((*philo)->mutex_print);
-	printf("%lld %d %s", current_time() - (*philo)->start_time,
+	if (thread->is_alive == 1)
+	{
+		pthread_mutex_lock(thread->philo->mutex_print);
+		printf("%lld %d %s", current_time() - thread->philo->start_time,
 		i + 1, ft_action(action));
-	pthread_mutex_unlock((*philo)->mutex_print);
+		pthread_mutex_unlock(thread->philo->mutex_print);
+	}
 	return (0);
 }

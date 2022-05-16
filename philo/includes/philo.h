@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 19:34:09 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/14 19:49:22 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/16 18:13:19 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,10 @@ typedef struct s_data
 	int				philonbr;
 	int				philomusteat;
 	long long		start_time;
+	int				is_someone_dead;
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	*mutex_print;
+	struct	s_dataa **thread;
 }	t_philo;
 
 typedef struct s_dataa
@@ -45,6 +47,7 @@ typedef struct s_dataa
 // utils
 long		ft_atoi(const char *nptr);
 long long	current_time(void);
+int			is_someone_dead(t_thread *thread);
 
 // init and destroy
 int			init_struct(t_philo **philo, t_thread **thread,
