@@ -6,17 +6,25 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:31:26 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 20:15:35 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:08:50 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <philo.h>
 
+long long	current_time(void)
+{
+	struct timeval	time;
+
+	gettimeofday(&time, NULL);
+	return (time.tv_sec * 1000 + time.tv_usec / 1000);
+}
+
 int	is_someone_dead(t_thread *thread)
 {
 	if (current_time() - thread->philo->start_time
 		- thread->last_meal >= thread->philo->timetodie)
-	{	
+	{
 		philo_print(thread, thread->philo_idx, 5);
 		pthread_mutex_lock(thread->philo->mutex_death);
 		thread->is_alive = 0;

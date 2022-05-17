@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 19:32:50 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 19:33:38 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:12:48 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,20 @@ unsigned int	ft_strlen(char *s)
 	return (i);
 }
 
+int	string_check(const char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] < '0' || s[i] > '9')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 long	ft_atoi(const char *nptr)
 {
 	int		i;
@@ -39,11 +53,8 @@ long	ft_atoi(const char *nptr)
 		i++;
 	if (nptr[i] == '+' )
 		i++;
-	else if (nptr[i] == '-')
-	{
-		i++;
-		neg *= -1;
-	}
+	else if (nptr[i] == '-' || string_check(nptr) == 1)
+		return (-1);
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		result *= 10;
@@ -51,14 +62,6 @@ long	ft_atoi(const char *nptr)
 		i++;
 	}
 	return (result *= neg);
-}
-
-long long	current_time(void)
-{
-	struct timeval	time;
-
-	gettimeofday(&time, NULL);
-	return (time.tv_sec * 1000 + time.tv_usec / 1000);
 }
 
 char	*ft_action(int action)

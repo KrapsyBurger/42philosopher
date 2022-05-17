@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:56:25 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 20:10:19 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/17 17:54:48 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,12 @@ int	main(int argc, char **argv)
 	if (init_struct(&philo, &thread, argc, argv) == 0)
 		return (free(philo), 0);
 	ft_thread_create(&thread, &philo);
-	destroy_mutex(&philo);
 	while (i < philo->philonbr)
 	{
 		pthread_join(thread[i].id, NULL);
 		i++;
 	}
+	destroy_mutex(&philo);
 	ft_free(&thread, &philo);
 	return (0);
 }

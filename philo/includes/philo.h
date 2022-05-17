@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 19:34:09 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 20:17:04 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/17 16:03:25 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_data
 	pthread_mutex_t	*mutex_fork;
 	pthread_mutex_t	*mutex_print;
 	pthread_mutex_t	*mutex_death;
+	pthread_mutex_t	*mutex_death_check;
 	pthread_mutex_t	*mutex_rip;
 }	t_philo;
 

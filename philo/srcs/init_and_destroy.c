@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/16 20:16:53 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:14:08 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,25 @@ int	init_philo(t_philo **philo, char **argv, int argc)
 	(*philo)->argc = argc;
 	(*philo)->start_time = current_time();
 	(*philo)->philonbr = ft_atoi(argv[1]);
-	if ((*philo)->philonbr == 0)
-		return (1);
 	(*philo)->timetodie = ft_atoi(argv[2]);
 	(*philo)->timetoeat = ft_atoi(argv[3]);
 	(*philo)->timetosleep = ft_atoi(argv[4]);
+	if ((*philo)->philonbr == 0 || (*philo)->philonbr == -1
+		|| (*philo)->timetodie == -1 || (*philo)->timetoeat == -1
+		|| (*philo)->timetosleep == -1)
+	{
+		printf("Careful, wrong arguments.\n");
+		return (1);
+	}
 	if (argc == 6)
+	{
 		(*philo)->philomusteat = ft_atoi(argv[5]);
+		if ((*philo)->philomusteat == 0 || (*philo)->philomusteat == -1)
+		{
+			printf("Careful, wrong arguments.\n");
+			return (1);
+		}
+	}
 	return (0);
 }
 
