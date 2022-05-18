@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/18 16:27:09 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:48:12 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	destroy_mutex(t_philo **philo)
 	int	i;
 
 	i = 0;
+	if ((*philo)->philonbr == 1)
+		return (1);
 	while (i < (*philo)->philonbr)
 	{
 		if (pthread_mutex_destroy(&(*philo)->mutex_fork[i]) != 0)

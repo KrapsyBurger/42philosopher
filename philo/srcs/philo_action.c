@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 20:05:44 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/18 16:42:44 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 17:47:33 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ int	philo_eat(t_thread *thread)
 	{
 		pthread_mutex_unlock(&thread->philo->mutex_fork
 		[thread->philo->philonbr - 1]);
+		if (thread->philo->philonbr == 1)
+			return (1);
 		pthread_mutex_unlock(&thread->philo->mutex_fork[thread->philo_idx]);
 	}
 	else
