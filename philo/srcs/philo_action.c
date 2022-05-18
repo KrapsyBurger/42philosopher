@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 20:05:44 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/17 17:37:27 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 16:42:44 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,15 @@ void	fork_lock_1st_philo(t_thread *thread)
 	{
 		philo_print(thread, thread->philo_idx, 1);
 		is_someone_dead(thread);
+	}
+	if (thread->philo->philonbr == 1)
+	{
+		while (1)
+		{
+			if (is_someone_dead(thread) == 1)
+				break ;
+		}
+		return ;
 	}
 	if (pthread_mutex_lock(&thread->philo->mutex_fork[thread->philo_idx]) == 0)
 	{
