@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/09 15:56:25 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/18 17:23:04 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 19:12:03 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,8 @@ void	*routine(void *s)
 	t_thread	*thread;
 
 	thread = (t_thread *)s;
-	if (thread->philo->philonbr % 2 == 0)
-	{
-		if (thread->philo_idx % 2 != 0)
-			ft_usleep(thread, thread->philo->timetoeat / 2);
-	}
-	else if (thread->philo->philonbr % 2 != 0)
-	{
-		if (thread->philo_idx % 2 == 0)
-			ft_usleep(thread, thread->philo->timetoeat / 2);
-	}
+	if (thread->philo_idx % 2 != 0)
+		ft_usleep(thread, thread->philo->timetoeat / 2);
 	while (thread->is_alive == 1 && is_someone_dead(thread) == 0)
 	{
 		if (routine_loop(thread) == 1)
@@ -63,7 +55,15 @@ int	main(int argc, char **argv)
 
 	i = 0;
 	if (init_struct(&philo, &thread, argc, argv) == 0)
-		return (free(philo), free(thread), 0);
+		return (free(philo), 0);
+	if (philo->philonbr == 1)
+	{
+		printf("0 1 \033[94mhas taken a fork\n\033[0m");
+		usleep(philo->timetodie * 1000);
+		printf("%d 1 \e[38;5;196mdied\n\033[0m", philo->timetodie);
+		ft_free(&thread, &philo);
+		return (0);
+	}
 	ft_thread_create(&thread, &philo);
 	while (i < philo->philonbr)
 	{

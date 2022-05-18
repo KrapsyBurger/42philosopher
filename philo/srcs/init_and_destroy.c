@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 17:55:13 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/18 17:48:12 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 19:02:11 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	destroy_mutex(t_philo **philo)
 		return (0);
 	if (pthread_mutex_destroy((*philo)->mutex_rip) != 0)
 		return (0);
+	if (pthread_mutex_destroy((*philo)->mutex_death_check) != 0)
+		return (0);
 	return (1);
 }
 
@@ -50,6 +52,8 @@ int	init_mutex(t_philo **philo)
 	if (pthread_mutex_init((*philo)->mutex_death, NULL) != 0)
 		return (0);
 	if (pthread_mutex_init((*philo)->mutex_rip, NULL) != 0)
+		return (0);
+	if (pthread_mutex_init((*philo)->mutex_death_check, NULL) != 0)
 		return (0);
 	return (1);
 }
@@ -97,6 +101,7 @@ int	init_struct(t_philo **philo, t_thread **thread, int argc, char **argv)
 	(*philo)->mutex_fork = malloc(sizeof(pthread_mutex_t) * (*philo)->philonbr);
 	(*philo)->mutex_print = malloc(sizeof(pthread_mutex_t));
 	(*philo)->mutex_death = malloc(sizeof(pthread_mutex_t));
+	(*philo)->mutex_death_check = malloc(sizeof(pthread_mutex_t));
 	(*philo)->mutex_rip = malloc(sizeof(pthread_mutex_t));
 	if (!(*philo)->mutex_fork || !(*philo)->mutex_print
 		|| !(*philo)->mutex_rip || !(*philo)->mutex_death)

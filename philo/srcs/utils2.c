@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/16 19:31:26 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/18 17:43:36 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 19:11:38 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ long long	current_time(void)
 
 int	is_someone_dead(t_thread *thread)
 {
+	pthread_mutex_lock(thread->philo->mutex_death_check);
 	if (current_time() - thread->philo->start_time
 		- thread->last_meal >= thread->philo->timetodie)
 	{
@@ -30,8 +31,10 @@ int	is_someone_dead(t_thread *thread)
 		thread->is_alive = 0;
 		thread->philo->is_someone_dead = 1;
 		pthread_mutex_unlock(thread->philo->mutex_death);
+		pthread_mutex_unlock(thread->philo->mutex_death_check);
 		return (1);
 	}
+	pthread_mutex_unlock(thread->philo->mutex_death_check);
 	return (0);
 }
 
@@ -52,6 +55,7 @@ void	ft_free(t_thread **thread, t_philo **philo)
 	free((*philo)->mutex_fork);
 	free((*thread));
 	free((*philo)->mutex_death);
+	free((*philo)->mutex_death_check);
 	free((*philo)->mutex_print);
 	free((*philo)->mutex_rip);
 	free((*philo));

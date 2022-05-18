@@ -6,7 +6,7 @@
 /*   By: nfascia <nathanfascia@gmail.com>           +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/14 19:32:50 by nfascia           #+#    #+#             */
-/*   Updated: 2022/05/17 18:12:48 by nfascia          ###   ########.fr       */
+/*   Updated: 2022/05/18 18:08:25 by nfascia          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,15 @@ long	ft_atoi(const char *nptr)
 char	*ft_action(int action)
 {
 	if (action == 1)
-		return ("has taken a fork\n");
+		return ("\033[94mhas taken a fork\n\033[0m");
 	else if (action == 2)
-		return ("is eating\n");
+		return ("\e[38;5;118mis eating\n\033[0m");
 	else if (action == 3)
-		return ("is sleeping\n");
+		return ("\033[33mis sleeping\n\033[0m");
 	else if (action == 4)
-		return ("is thinking\n");
+		return ("\033[95mis thinking\n\033[0m");
 	else if (action == 5)
-		return ("died\n");
+		return ("\e[38;5;196mdied\n\033[0m");
 	return (NULL);
 }
 
